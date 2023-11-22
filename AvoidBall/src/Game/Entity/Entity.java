@@ -12,7 +12,6 @@ public class Entity {
 	public int GetXPos() { return x_pos; }
 	public int GetYPos() { return y_pos; }
 	public void NextFrame() {
-		
 		return;
 	}
 }
