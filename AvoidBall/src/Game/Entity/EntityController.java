@@ -67,15 +67,20 @@ public class EntityController {
 		}
 		return count;
 	}
+	
+	public int getLastEntityId() {
+		return last_entity_id;
+	}
 
 	public boolean removeEntity(int id){
 		if(last_entity_id <= id)
 			return false;
 		System.out.printf("[INFO] Remove entity type:%s id:%d\n",entity_list[id].getType(),id);
 		for(int i=id;i<last_entity_id;i++){
+			System.out.printf("[INFO] Override entity id:%d\n",i);
 			entity_list[i] = entity_list[i+1];
-			last_entity_id -= 1;
 		}
+		last_entity_id -= 1;
 		return true;
 	}
 

@@ -57,15 +57,20 @@ public class AnimationWriter extends JPanel{
 			System.out.printf("%s \n",animation_list[i].getClass());
 		}
 	}
+	
+	public int getLastAnimationId() {
+		return last_animation_id;
+	}
 
 	public boolean removeAnimation(int id){
 		if(last_animation_id <= id)
 			return false;
 		System.out.printf("[INFO] Remove animation type:%s id:%d\n",animation_list[id].getClass(),id);
 		for(int i=id;i<last_animation_id;i++){
+			System.out.printf("[INFO] Override anim id:%d\n",i);
 			animation_list[i] = animation_list[i+1];
-			last_animation_id -= 1;
 		}
+		last_animation_id -= 1;
 		return true;
 	}
 

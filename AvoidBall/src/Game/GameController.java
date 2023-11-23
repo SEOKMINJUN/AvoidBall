@@ -100,6 +100,9 @@ public class GameController {
 		{
 			delay(painting_delay);
 			runtime += painting_delay*5;
+			if(runtime % 50000 == 0) {
+				System.out.printf("[DEBUG] Entity : %d / Anim : %d / MovingBall : %d / Coin : %d\n", entity_controller.getLastEntityId(), animation_writer.getLastAnimationId(), entity_controller.getMovingBallCount(), entity_controller.getCoinCount());
+			}
 			if(runtime - last_moving_ball_time > difficulty.spawn_moving_ball_cooltime && entity_controller.getMovingBallCount() <= difficulty.max_moving_ball){
 				last_moving_ball_time = runtime;
 				createMovingBall();
@@ -128,7 +131,7 @@ public class GameController {
 				entity_controller.removeEntity(id);
 				animation_writer.removeAnimation(id);
 				animation_writer.updatePointText(entity_controller.getPlayer().getPoint());
-				System.out.printf("점수 증가 : %d\n",entity_controller.getPlayer().getPoint());
+				System.out.printf("점수 증가 : %d, 남은 코인 : %d\n",entity_controller.getPlayer().getPoint(), entity_controller.getCoinCount());
 			}
 			animation_writer.repaint();
 		}
