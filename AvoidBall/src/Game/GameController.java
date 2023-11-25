@@ -8,6 +8,7 @@ import java.util.Random;
 import Game.Entity.*;
 import Game.Writer.AnimationWriter;
 import Game.Writer.BallWriter;
+import Game.Writer.StartInfoWriter;
 
 public class GameController {
 	private EntityController entity_controller; // model object
@@ -96,6 +97,11 @@ public class GameController {
 		int runtime=0;
 		int last_moving_ball_time = 0;
 		int last_coin_time = 0;
+		
+		StartInfoWriter start_info = new StartInfoWriter();
+		if(start_info != null)
+			return;
+		
 		while (true)
 		{
 			delay(painting_delay);
