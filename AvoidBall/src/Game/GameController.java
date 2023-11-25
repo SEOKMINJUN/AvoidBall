@@ -5,8 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import javax.swing.JTextArea;
-
 import Game.Entity.*;
 import Game.Writer.AnimationWriter;
 import Game.Writer.BallWriter;
@@ -14,8 +12,8 @@ import Game.Writer.EndScreenWriter;
 import Game.Writer.StartInfoWriter;
 
 public class GameController {
-	private EntityController entity_controller; // model object
-	private AnimationWriter animation_writer; // output-view object
+	private EntityController entity_controller;
+	private AnimationWriter animation_writer;
 	private int time_unit = 20;
 	private int painting_delay = 10;
 	private int mouse_x = 0;
@@ -35,7 +33,6 @@ public class GameController {
 			public void mouseMoved(MouseEvent event){
 				mouse_x = event.getX();
 				mouse_y = event.getY();
-				//System.out.printf("\r[M] x: %d y: %d",mouse_x,mouse_y);
 			}
 		});
 		aw.getPointText().addMouseMotionListener(new MouseAdapter() {
@@ -43,7 +40,6 @@ public class GameController {
 				Rectangle r = aw.getPointText().getBounds();
 				mouse_x = event.getX()+r.x;
 				mouse_y = event.getY()+r.y;
-				//System.out.printf("\r[M] x: %d y: %d",mouse_x,mouse_y);
 			}
 		});
 		time_unit = 1;
@@ -51,14 +47,17 @@ public class GameController {
 		rank = new Rank();
 	}
 
+	//랜덤한 위치(x축) 선택
 	int _randomPickBallXPos(int r){
 		return random.nextInt(1280 - r - r + 1) + r;
 	}
 
+	//랜덤한 위치(y축) 선택
 	int _randomPickBallYPos(int r){
 		return random.nextInt(720 - r - r + 1) + r;
 	}
 
+	//움직이는 공 생성
 	public void createMovingBall(){
 		int r = 12;
 		int x = _randomPickBallXPos(r);
@@ -71,6 +70,7 @@ public class GameController {
 		animation_writer.register(ball_writer);
 	}
 
+	//코인 생성
 	public void createCoin(){
 		int r = 12;
 		int x = _randomPickBallXPos(r);
@@ -83,6 +83,7 @@ public class GameController {
 		animation_writer.register(ball_writer);
 	}
 
+	//플레이어 생성
 	public void createPlayerBall(){
 		if(entity_controller.getPlayer() != null){
 			System.out.println("[ERROR] Try to override player ball");
@@ -95,10 +96,8 @@ public class GameController {
 		animation_writer.register(ball_writer);
 	}
 
+	//얻은 점수 및 랭킹 출력
 	public void showEndScreen(){
-		System.out.println("[INFO] Try to show end screen");
-		
-		System.out.println("[INFO] Clean entity and animation");
 		while(entity_controller.getLastEntityId() <= 0){
 			entity_controller.removeEntity(0);
 		}
@@ -113,7 +112,6 @@ public class GameController {
 		else
 			result = rank.addHardRank(name, entity_controller.getPlayer().getPoint());
 		rank.saveRankFile();
-		System.out.printf("[INFO] Add rank, result : %b, name : %s, point : %d\n",result,name,entity_controller.getPlayer().getPoint());
 
 		EndScreenWriter end_screen_writer = new EndScreenWriter(animation_writer.getFrame());
 		//rank_text.setLocation(128*3,72*2);
@@ -139,6 +137,7 @@ public class GameController {
 
 		return;
 	}
+
 	public void runGame() {
 		int id;
 		int runtime=0;
@@ -163,8 +162,9 @@ public class GameController {
 				case 1:
 					//게임 작동 중
 
+					//흐른 시간 추가
 					runtime += painting_delay;
-
+					//흐른 시간*100 (기본 값 기준 1초)으로 기본 공, 코인 생성
 					if(runtime == painting_delay*100) {
 						createMovingBall();
 						createMovingBall();
@@ -172,31 +172,28 @@ public class GameController {
 						createCoin();
 					}
 
-					//MovingBall 생성
+					//일정 시간마다 MovingBall 생성
 					if(runtime - last_moving_ball_time > difficulty.spawn_moving_ball_cooltime && entity_controller.getMovingBallCount() <= difficulty.max_moving_ball){
 						last_moving_ball_time = runtime;
 						createMovingBall();
-						System.out.printf("[INFO] Create new moving ball, runtime : %d\n",runtime);
 					}
 
-					//Coin 생성
+					//일정 시간마다 Coin 생성
 					if(runtime - last_coin_time > difficulty.spawn_coin_cooltime && entity_controller.getCoinCount() <= difficulty.max_coin){
 						last_coin_time = runtime;
 						createCoin();
-						System.out.printf("[INFO] Create new coin, runtime : %d\n",runtime);
 					}
 
 					//공 움직이기 + 플레이어 공 위치 옮기기
 					entity_controller.run(time_unit);
 
 					if(!(entity_controller.getPlayer() != null && entity_controller.runPlayerBall(mouse_x,mouse_y))){
-							//System.err.println("No player ball entity, skip");
+							System.err.println("[ERROR] No player ball entity, skip");
 							continue;
 					}
 					//플레이어랑 볼 충돌 테스트
 					id = entity_controller.collideMovingBallTest();
 					if(id != -1){
-						System.out.println("[INFO] Dead");
 						game_status = 2;
 						showEndScreen();
 						entity_controller.setPlayer(null);
@@ -209,18 +206,13 @@ public class GameController {
 						entity_controller.removeEntity(id);
 						animation_writer.removeAnimation(id);
 						animation_writer.updatePointText(entity_controller.getPlayer().getPoint());
-						System.out.printf("[INFO] Point : %d, Remain coin : %d\n",entity_controller.getPlayer().getPoint(), entity_controller.getCoinCount());
 					}
 					break;
 				case 2:
 					//사망 화면
-
-					break;
-				default:
+					//업데이트 대상 없음
 					break;
 			}
-			
-			
 			animation_writer.repaint();
 		}
 	}

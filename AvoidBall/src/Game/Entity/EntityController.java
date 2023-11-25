@@ -1,20 +1,19 @@
 package Game.Entity;
 
-import Game.Rank;
-
 public class EntityController {
-	private int MAX_ENTITY = 256;
-	private Entity entity_list[];
-	private int last_entity_id;
-	private Box box;
-	private PlayerBall player_ball;
+	private int MAX_ENTITY; // 최대 엔티티 갯수
+	private Entity entity_list[]; // 엔티티 목록
+	private int last_entity_id; // 엔티티 갯수 / 마지막 엔티티 번호
+	private Box box; // 게임 영역
+	private PlayerBall player_ball;	//플레이어 
 	public EntityController() {
 		MAX_ENTITY = 256;
 		entity_list = new Entity[MAX_ENTITY];
 		last_entity_id = 0;
 		box = null;
 	}
-	
+
+	// entity_list 리스트에 엔티티 추가
 	public boolean register(Entity entity) {
 		if(last_entity_id >= MAX_ENTITY) {
 			System.out.println("[ERROR] Failed to register entity to EntityController, So many entity.");
@@ -24,30 +23,36 @@ public class EntityController {
 		return true;
 	}
 
+	//게임 영역 담당할 Box 설정
 	public boolean setBox(Box box){
 		this.box = box;
 		return true;
 	}
 
+	//Box 반환
 	public Box getBox(){
 		return box;
 	}
 
+	//플레이어 Entity 설정
 	public boolean setPlayer(PlayerBall player){
 		player_ball = player;
 		return true;
 	}
 
+	//플레이어 반환
 	public PlayerBall getPlayer(){
 		return player_ball;
 	}
 
+	//현재 entity_list의 엔티티들 출력
 	public void printEntity(){
 		for(int i=0;i<last_entity_id;i++){
 			System.out.printf("%s \n",entity_list[i].getClass());
 		}
 	}
 
+	//엔티티 중 MovingBall의 갯수 
 	public int getMovingBallCount(){
 		int count = 0;
 		for(int i=0;i<last_entity_id;i++){
@@ -58,6 +63,7 @@ public class EntityController {
 		return count;
 	}
 
+	//엔티티 중 Coin의 갯수 반환
 	public int getCoinCount(){
 		int count = 0;
 		for(int i=0;i<last_entity_id;i++){
@@ -68,37 +74,29 @@ public class EntityController {
 		return count;
 	}
 	
+	//last_entity_id 값 반환
 	public int getLastEntityId() {
 		return last_entity_id;
 	}
 
+	//엔티티 목록에서 특정 엔티티 제거
+	//뒤의 엔티티를 앞으로 덮어씌워 없애는 방식
 	public boolean removeEntity(int id){
 		if(last_entity_id <= id)
 			return false;
-		System.out.printf("[INFO] Remove entity type:%s id:%d\n",entity_list[id].getType(),id);
 		for(int i=id;i<last_entity_id;i++){
-			System.out.printf("[INFO] Override entity id:%d\n",i);
 			entity_list[i] = entity_list[i+1];
 		}
 		last_entity_id -= 1;
 		return true;
 	}
 
-	public boolean _collideLineTest(int p1_left, int p1_right,int p2_left, int p2_right){
-		if(p1_left < p2_left && p2_left < p1_right)
-			return true;
-		if(p2_left < p1_left && p1_left < p2_right)
-			return true;
-		return false;
-	}
-
+	//두 원이 겹치는지 테스트
 	public boolean _collideCircleTest(int x1,int y1,int r1,int x2,int y2,int r2){
-		if(_collideLineTest(x1-r1,x1+r1,x2-r1,x2+r1) && _collideLineTest(y1-r1,y1+r1,y2-r1,y2+r1))
-			return true;
-		return false;
+		return Math.abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) < (r1 + r2) * (r1 + r2);
 	}
 
-
+	//플레이어와 MovingBall이 충돌했는지 테스트
 	public int collideMovingBallTest(){
 		int player_x = player_ball.getXPos();
 		int player_y = player_ball.getYPos();
@@ -117,6 +115,7 @@ public class EntityController {
 		return -1;
 	}
 
+	//플레이어와 Coin이 충돌했는지 테스트
 	public int collideCoinTest(){
 		int player_x = player_ball.getXPos();
 		int player_y = player_ball.getYPos();
@@ -135,6 +134,7 @@ public class EntityController {
 		return -1;
 	}
 
+	//엔티티 작동
 	public boolean run(int time_units){
 		if(box == null){
 			System.out.println("[ERROR] Box not setted");
@@ -152,6 +152,9 @@ public class EntityController {
 		return true;
 	}
 
+	//PlayerBall을 entity_list 안에서 관리하지 않고 따로 변수로 관리하여 
+	//추가적인 함수를 만들어 관리
+	//entity_list에 등록해서 관리하기 위해서는 마우스의 x,y값을 내부에서 구할 수 있게 변경해야함.
 	public boolean runPlayerBall(int x, int y){
 		if(player_ball == null){
 			System.out.println("[ERROR] player ball not setted.");

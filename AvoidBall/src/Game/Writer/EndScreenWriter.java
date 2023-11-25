@@ -9,16 +9,17 @@ public class EndScreenWriter extends JPanel{
 	public JFrame frame;
 	public JTextArea rank_text;
 	public EndScreenWriter(JFrame frame) {
+		//게임 화면 정리 및 해당 패널을 화면에 추가
 		this.frame = frame;
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(this);
 
-		rank_text = new JTextArea(11,5);
-		rank_text.setBounds(300,100,1000,700);
+		//랭킹 텍스트 화면에 추가
+		rank_text = new JTextArea();
 		rank_text.setEditable(false);
 		rank_text.setFocusable(true);
 		rank_text.setOpaque(true);
-		rank_text.setWrapStyleWord(false);
+		//Monospaced font 사용해 글자 별 넓이 동일하게해 랭킹 출력시 통일감 줌
 		rank_text.setFont(new Font("Consolas", Font.PLAIN, 16));
 		add(rank_text);
 	}

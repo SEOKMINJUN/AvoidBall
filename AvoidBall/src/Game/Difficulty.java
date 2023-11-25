@@ -1,12 +1,14 @@
 package Game;
 
 public class Difficulty {
-    int difficulty = 0;
+    public int difficulty = 0;
     public int spawn_coin_cooltime = 0;
     public int spawn_moving_ball_cooltime = 0;
 	public int max_moving_ball = 0;
 	public int max_coin = 0;
 
+
+    //난이도
     public Difficulty(int difficulty){
         this.difficulty = difficulty;
         if(difficulty == 0){

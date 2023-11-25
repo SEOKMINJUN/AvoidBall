@@ -4,7 +4,9 @@ import java.awt.Color;
 
 public class PlayerBall extends Ball
 {
-	int point;
+	int point; //얻은 포인트
+
+	//생성자
 	public PlayerBall(int x, int y, int r) {
 		super("PlayerBall",x, y, r, Color.GREEN);
 		point = 0;

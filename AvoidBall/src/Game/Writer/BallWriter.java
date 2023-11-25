@@ -7,15 +7,14 @@ import javax.swing.JPanel;
 
 
 public class BallWriter extends JPanel{
-	private Ball ball; // the (address of the) ball object displayed
+	private Ball ball;
 
-	/** Constructor BallWriter
-	 * @param x - the ball to be displayed*/
+	//생성자
 	public BallWriter(Ball x){
 		ball = x;
 	}
-	/** paint paints the ball on the view
-	 * @param g - the graphics pen used to paint the ball */
+	
+	//그리기
 	public void paint(Graphics g){
 		g.setColor(ball.getColor());
 		int radius = ball.getRadius();

@@ -6,13 +6,12 @@ import Game.Entity.Box;
 import javax.swing.JPanel;
 
 public class BoxWriter extends JPanel{
-	private Box box; // the (address of the) box object that is displayed
-	/** Constructor BoxWriter displays the box
-	  * @param b - the box that is displayed */
+	private Box box; // 박스 (게임 영역)
+	
+	//생성자
 	public BoxWriter(Box b){ box = b; }
 
-	/** paint paints the box
-	  * @param g - the graphics pen used to paint the box */
+	//박스 그리기
 	public void paint(Graphics g){ 
 		int width = box.getWidth();
 		int height = box.getHeight();

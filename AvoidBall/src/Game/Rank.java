@@ -29,11 +29,13 @@ public class Rank {
         readRankFile();
     }
 
+    //랭크 파일 불러오기
     public void readRankFile(){
         _load_easy_rank();
         _load_hard_rank();
     }
 
+    //이지 랭크 파일 불러오기
     public void _load_easy_rank(){
         File easy_rank_file = new File("easy_rank.json");
         String file_string = "";
@@ -67,6 +69,7 @@ public class Rank {
         System.out.printf("Load rank %d\n", easy_rank_count);
     }
 
+    //하드 랭크 파일 불러오기
     public void _load_hard_rank(){
         File hard_rank_file = new File("hard_rank.json");
         String file_string = "";
@@ -98,11 +101,13 @@ public class Rank {
         }
     }
 
+    //랭크 파일 저장
     public void saveRankFile(){
         _save_easy_rank();
         _save_hard_rank();
     }
 
+    //이지 랭크 파일 저장
     public void _save_easy_rank(){
         if(easy_rank_count < 0)
             return;
@@ -132,6 +137,7 @@ public class Rank {
         }
     }
 
+    //하드 랭크 파일 저장
     public void _save_hard_rank(){
         if(hard_rank_count <= 0)
             return;
@@ -144,7 +150,6 @@ public class Rank {
             file_content += hard_rank[0].getName()+":";
             file_content += Integer.toString(hard_rank[0].getPoint());
             for(int i=1;i<hard_rank_count;i++){
-                System.out.printf("[DEBUG] Max : %d , cur : %d",easy_rank_count,i);
                 file_content += "/";
                 file_content += hard_rank[i].getName()+":";
                 file_content += Integer.toString(hard_rank[i].getPoint());
@@ -160,11 +165,11 @@ public class Rank {
         }
     }
 
+    //이지 랭크에 추가, 최대 10명만 가능하므로 기준에 부합하지 않으면 추가하지 않음.
     public boolean addEasyRank(String name, int point){
         for(int i=0;i<easy_rank_count;i++){
             if(easy_rank[i].point < point){
                 for(int j=(easy_rank_count>9?9:easy_rank_count);i<j;j--){
-                    System.out.printf("PUSH / MAX : %d / I : %d / CUR : %d <- %d\n",easy_rank_count,i,j,j-1);
                     easy_rank[j] = easy_rank[j-1];
                 }
                 easy_rank[i] = new _Rank(name, point);
@@ -180,11 +185,11 @@ public class Rank {
         return false;
     }
 
+    //하드 랭크에 추가, 최대 10명만 가능하므로 기준에 부합하지 않으면 추가하지 않음.
     public boolean addHardRank(String name, int point){
         for(int i=0;i<hard_rank_count;i++){
             if(hard_rank[i].point < point){
                 for(int j=(hard_rank_count>9?9:hard_rank_count);i<j;j--){
-                    System.out.printf("PUSH / MAX : %d / I : %d / CUR : %d <- %d\n",hard_rank_count,i,j,j-1);
                     hard_rank[j] = hard_rank[j-1];
                 }
                 hard_rank[i] = new _Rank(name, point);
