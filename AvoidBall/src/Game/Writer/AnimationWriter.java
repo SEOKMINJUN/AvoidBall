@@ -11,7 +11,7 @@ public class AnimationWriter extends JPanel{
 	private JPanel animation_list[];
 	private int last_animation_id;
 	private JFrame frame;
-	private JTextArea pointText;
+	private JTextArea point_text;
 	public AnimationWriter(int width, int height) {
 		MAX_ANIMATION = 256;
 		animation_list = new JPanel[MAX_ANIMATION];
@@ -23,20 +23,20 @@ public class AnimationWriter extends JPanel{
         frame.setSize(width, height);
         frame.setVisible(true);
 
-		pointText = new JTextArea();
-		pointText.setEditable(false);
-		pointText.setFocusable(false);
-		pointText.setOpaque(false);
-		pointText.setWrapStyleWord(false);
-		pointText.removeMouseMotionListener(pointText.getMouseMotionListeners()[0]);
-		pointText.removeMouseMotionListener(pointText.getMouseMotionListeners()[0]);
-		System.out.println(Integer.toString(pointText.getMouseMotionListeners().length));
-		add(pointText);
+		point_text = new JTextArea();
+		point_text.setEditable(false);
+		point_text.setFocusable(false);
+		point_text.setOpaque(false);
+		point_text.setWrapStyleWord(false);
+		point_text.removeMouseMotionListener(point_text.getMouseMotionListeners()[0]);
+		point_text.removeMouseMotionListener(point_text.getMouseMotionListeners()[0]);
+		System.out.println(Integer.toString(point_text.getMouseMotionListeners().length));
+		add(point_text);
 		updatePointText(0);
 		frame.addMouseMotionListener(null);
 	}
 	public JTextArea getPointText(){
-		return pointText;
+		return point_text;
 	}
 
 	public boolean register(JPanel animation) {
@@ -49,7 +49,7 @@ public class AnimationWriter extends JPanel{
 	}
 
 	public void updatePointText(int point){
-		pointText.setText("Score : "+Integer.toString(point));
+		point_text.setText("Score : "+Integer.toString(point));
 	}
 
 	public void printAnimation(){
@@ -85,4 +85,9 @@ public class AnimationWriter extends JPanel{
 		}
 		frame.repaint();
 	}
+
+	public JFrame getFrame(){
+		return frame;
+	}
+
 }
