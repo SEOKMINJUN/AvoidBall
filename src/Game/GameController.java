@@ -106,11 +106,10 @@ public class GameController {
 		}
 		
 		
-		boolean result;
 		if(difficulty.difficulty == 0)
-			result = rank.addEasyRank(name, entity_controller.getPlayer().getPoint());
+			rank.addEasyRank(name, entity_controller.getPlayer().getPoint());
 		else
-			result = rank.addHardRank(name, entity_controller.getPlayer().getPoint());
+			rank.addHardRank(name, entity_controller.getPlayer().getPoint());
 		rank.saveRankFile();
 
 		EndScreenWriter end_screen_writer = new EndScreenWriter(animation_writer.getFrame());

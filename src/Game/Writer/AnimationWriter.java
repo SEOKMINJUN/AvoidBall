@@ -22,6 +22,7 @@ public class AnimationWriter extends JPanel{
         frame.getContentPane().add(this);
         frame.setTitle("AvoidBall");
         frame.setSize(width, height);
+		frame.setResizable(false);
         frame.setVisible(true);
 
 		// 점수 표시

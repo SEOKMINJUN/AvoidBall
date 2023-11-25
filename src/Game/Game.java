@@ -1,20 +1,14 @@
 package Game;
 
-import java.awt.*;
-
 import Game.Entity.Box;
 import Game.Entity.EntityController;
-import Game.Entity.MovingBall;
 import Game.Writer.AnimationWriter;
-import Game.Writer.BallWriter;
 import Game.Writer.BoxWriter;
-import Game.Writer.StartInfoWriter;
 
 public class Game {
 	/*
 	 * TODO
-	 * 창 크기 변경 막기
-	 * 게임 끝나면 보여주는 창 만들기
+	 * 주석 정리해야함
 	 */
 	public static void main(String[] args) {
 
