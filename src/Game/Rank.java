@@ -121,7 +121,6 @@ public class Rank {
             file_content += easy_rank[0].getName()+":";
             file_content += Integer.toString(easy_rank[0].getPoint());
             for(int i=1;i<easy_rank_count;i++){
-                System.out.printf("[DEBUG] Max : %d , cur : %d",easy_rank_count,i);
                 file_content += "/";
                 file_content += easy_rank[i].getName()+":";
                 file_content += Integer.toString(easy_rank[i].getPoint());
