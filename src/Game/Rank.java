@@ -109,7 +109,7 @@ public class Rank {
 
     //이지 랭크 파일 저장
     public void _save_easy_rank(){
-        if(easy_rank_count < 0)
+        if(easy_rank_count <= 0)
             return;
         try{
             String file_content = "";
